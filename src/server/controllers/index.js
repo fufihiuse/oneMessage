@@ -6,7 +6,7 @@ let currentName = 'N/A'
 
 const getMessage = async () => {
     try {
-        const doc = await Message.findOne({}).lean().exec();
+        const doc = await Message.findOne({}).sort({ 'createdDate': 'descending' }).lean().exec();
 
         if (doc) {
             currentMessage = doc.message;
@@ -34,18 +34,13 @@ const setMessage = async (req, res) => {
     currentMessage = req.body.message;
 
     try {
-        const doc = await Message.findOneAndUpdate({}, { name: currentName, message: currentMessage }).lean().exec();
+        const messageData = {
+            name: currentName,
+            message: currentMessage,
+        };
 
-        // Should never happen unless this is the first time a message has ever been posted
-        if (!doc) {
-            const messageData = {
-                name: currentName,
-                message: currentMessage,
-            };
-
-            const firstMessage = new Message(messageData);
-            await firstMessage.save();
-        }
+        const firstMessage = new Message(messageData);
+        await firstMessage.save();
     } catch (err) {
         console.log(err);
         throw err;

@@ -16,6 +16,11 @@ const MessageSchema = new mongoose.Schema({
         trim: true,
         maxLength: 10000,
     },
+
+    createdDate: {
+        type: Date,
+        default: Date.now,
+    }
 });
 
 MessageModel = mongoose.model('Message', MessageSchema);
