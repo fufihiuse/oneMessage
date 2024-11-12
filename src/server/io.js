@@ -3,9 +3,18 @@ const { Server } = require('socket.io');
 
 let io;
 
-const socketeSetup = (app) => {
+const socketSetup = (app) => {
     const server = http.createServer(app);
     io = new Server(server);
 
+    return server;
+}
 
+const handleNewMessage = (data) => {
+    io.emit('message posted', data);
+}
+
+module.exports = {
+    socketSetup,
+    handleNewMessage,
 }

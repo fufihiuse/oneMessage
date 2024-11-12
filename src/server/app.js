@@ -7,13 +7,13 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const expressHandlebars = require('express-handlebars');
 const router = require('./router.js');
-const socketSetup = require('./io.js');
+const { socketSetup } = require('./io.js');
 const exp = require('constants');
 
 const dbURI = process.env.MONGODB_URI || 'mongodb://127.0.0.1/oneMessage';
 
 mongoose.connect(dbURI).catch((err) => {
-    if(err) {
+    if (err) {
         console.log('Could not connect to database');
         throw err;
     }
@@ -38,7 +38,9 @@ app.use('/assets', express.static(`${__dirname}/../client`));
 
 router(app);
 
-app.listen(port, (err) => {
+const server = socketSetup(app);
+
+server.listen(port, (err) => {
     if (err) {
         throw err;
     }
