@@ -1,4 +1,5 @@
 const models = require('../models');
+const io = require('../io');
 const { Message } = models;
 
 let currentMessage = 'N/A'
@@ -41,6 +42,7 @@ const setMessage = async (req, res) => {
 
         const firstMessage = new Message(messageData);
         await firstMessage.save();
+        io.handleNewMessage(messageData);
     } catch (err) {
         console.log(err);
         throw err;
