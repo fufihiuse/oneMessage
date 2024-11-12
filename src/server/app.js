@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const expressHandlebars = require('express-handlebars');
 const router = require('./router.js');
+const socketSetup = require('./io.js');
 const exp = require('constants');
 
 const dbURI = process.env.MONGODB_URI || 'mongodb://127.0.0.1/oneMessage';
@@ -33,7 +34,7 @@ app.set('view engine', 'handlebars');
 app.set('views', `${__dirname}/../views`);
 
 app.use(favicon(`${__dirname}/../client/img/favicon.png`));
-app.use(express.static(`${__dirname}/../client`));
+app.use('/assets', express.static(`${__dirname}/../client`));
 
 router(app);
 
