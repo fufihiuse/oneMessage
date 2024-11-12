@@ -31,8 +31,8 @@ const setMessage = async (req, res) => {
         return res.status(400).json({ error: 'Name and Message are required.' });
     }
 
-    currentName = req.body.name;
-    currentMessage = req.body.message;
+    currentName = req.body.name.slice(0, 1000);
+    currentMessage = req.body.message.slice(0, 10000);
 
     try {
         const messageData = {
